@@ -466,16 +466,36 @@ body{background-color: white;
   align-items: center;
 }
 
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Header{
+    margin-top: 0%;
+  }
+}
+
 #Ricerca-flex-container-box-Header h1{
   color: white;
   font-size: 50px;
   margin-bottom: 0px;
 }
 
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Header h1{
+    font-size: 30px;
+    margin-bottom: 0px;
+  }
+}
+
 #Ricerca-flex-container-box-Header h2{
   color: white;
   font-size: 25px;
   margin-bottom: 7%;
+}
+
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Header h2{
+    font-size: 15px;
+    margin-bottom: 30%;
+  }
 }
 
 #Ricerca-flex-container-box-Barra {
@@ -491,7 +511,6 @@ body{background-color: white;
   color: grey
 }
 
-
 #Ricerca-flex-container-box-Barra-svg{
   margin-left: 10px;
 }
@@ -499,7 +518,6 @@ body{background-color: white;
 #Ricerca-flex-container-box-Barra-testo{
   margin-left: 10px;
 }
-
 #Ricerca-flex-container-box-Barra-testo-input{
   border: none;
   margin-left: 10px;
@@ -516,8 +534,67 @@ body{background-color: white;
   font-size: 15px;
   border: none;
   border-radius: 15%/40%;
-  margin-left: 70px;
+  margin-left: 10px;
 }
+
+#Ricerca-flex-container-box-Barra-Mobile{
+  display: none;
+}
+
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Barra{
+    display: none;
+  }
+}
+
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Barra-Mobile{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    width: 110%;
+    height: 50px;
+    border-radius: 3.5%/60%;
+    text-decoration: none;
+    margin-top: 0px;
+  }
+}
+
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Barra-svg_mobile{
+    margin-left: 10px;
+  }
+}
+
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Barra-testo_mobile{
+    margin-left: 10px;
+  }
+}
+
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Barra-testo-input_mobile{
+    width: 50%;
+  }
+}
+
+@media(max-width: 500px){
+  #Ricerca-flex-container-box-Barra-testo-submit_mobile{
+    background-color: rgb(60, 150, 60);
+    color: black;
+    align-items: center;
+    height: 70%;
+    width: 19%;
+    font-size: 15px;
+    border: none;
+    border-radius: 15%/40%;
+    margin-left: 0.75%;
+  }
+}
+
+
 
 #Album-view {
   display: flex;
@@ -533,6 +610,13 @@ body{background-color: white;
   flex-direction: column;
   color: white;
 }
+
+#Album-view .didascaliaAlbum {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
 
 #Album-view img {
   max-width: 100%;
@@ -561,9 +645,42 @@ body{background-color: white;
   margin-top: 10px;
 }
 
+#Artista-view {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#Artista-view .artista {
+  margin: 10px;
+  border: 1px solid slategray;
+  padding: 5px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+#Artista-view .didascaliaArtista {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+
+#Artista-view img {
+  max-width: 100%;
+}
+
 
 .Classifiche{
   margin-top: 100px;
+}
+
+@media(max-width: 500px){
+  .Classifiche{
+    display: none;
+  }
 }
 
 #Classifiche-flex-container{

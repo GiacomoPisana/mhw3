@@ -132,16 +132,29 @@ function onJsonAlbum(json){
         const datiAlbum = risultati[i];
         const titolo = datiAlbum.name;
         const immagineSelezionata = datiAlbum.images[0].url;
+        const numTracce = datiAlbum.total_tracks;
+        const dataRilascio = datiAlbum.release_date;
 
         const album = document.createElement('div');
         album.classList.add('album');
         const img = document.createElement('img');
         img.src = immagineSelezionata;
-        const didascalia = document.createElement('span');
-        didascalia.textContent = titolo;
+        const didascalia = document.createElement('div');
+        const didTitolo = document.createElement('span');
+        didTitolo.textContent = "Album: "+ titolo;
+        const didNumTracce = document.createElement('span');
+        didNumTracce.textContent = "Numero di tracce: " + numTracce;
+        const didDataRilascio = document.createElement('span');
+        didDataRilascio.textContent = "Data di rilascio: " + dataRilascio;
+        didascalia.appendChild(didTitolo);
+        didascalia.appendChild(didNumTracce);
+        didascalia.appendChild(didDataRilascio);
+        didascalia.classList.add('didascaliaAlbum');
         album.appendChild(img);
         album.appendChild(didascalia);
         libreria.appendChild(album);
+
+        console.log(datiAlbum);
     }
 }
 
@@ -174,7 +187,7 @@ function onJsonBrano(json){
         const didTitolo = document.createElement('span');
         didTitolo.textContent = "Brano: "+ titolo;
         didNomeArtista = document.createElement('span');
-        didNomeArtista.textContent = "Artistia: " + artista;
+        didNomeArtista.textContent = "Artista: " + artista;
         const didDurata = document.createElement('span');
         const minuti = Math.floor(durata / 60000);
         const secondi = Math.floor((durata % 60000) / 1000);
@@ -192,7 +205,46 @@ function onJsonBrano(json){
     console.log(datiBrano);
 }
 
+function onJsonArtist(json){
+    const libreria = document.querySelector('#Artista-view');
+    libreria.innerHTML = '';
+    const risultati = json.artists.items;
+
+    const datiArtista = risultati[0];
+    console.log(datiArtista);
+
+    const nomeArtista = datiArtista.name;
+    const immagineSelezionata = datiArtista.images[0].url;
+    const numFollower = datiArtista.followers.total;
+    const genere = datiArtista.genres[0];
+
+    const artista = document.createElement('div');
+    artista.classList.add('artista');
+    const img = document.createElement('img');
+    img.src = immagineSelezionata;
+    const didascalia = document.createElement('div');
+    const didNomeArtista = document.createElement('span');
+    didNomeArtista.textContent = "Artista: "+ nomeArtista;
+    const didGenere = document.createElement('span');
+    didGenere.textContent = "Genere: " + genere;
+    const didNumFollower = document.createElement('span');
+    didNumFollower.textContent = "Numero di follower: " + numFollower; 
+
+    didascalia.appendChild(didNomeArtista);
+    didascalia.appendChild(didGenere);
+    didascalia.appendChild(didNumFollower);
+    didascalia.classList.add('didascaliaArtista');
+    artista.appendChild(img);
+    artista.appendChild(didascalia);
+    libreria.appendChild(artista);
+
+}
+
 function onResponseBrano(response){
+    return response.json();
+}
+
+function onResponseArtist(response){
     return response.json();
 }
 
@@ -227,14 +279,68 @@ function barraRicercaF(event){
           ).then(onResponseBrano).then(onJsonBrano);
     }
 
+    else if (scelta == "artista"){
+        fetch("https://api.spotify.com/v1/search?type=artist&q=" + value,
+            {
+                headers:
+                {
+                    'Authorization': 'Bearer ' + token
+                }
+            }
+        ).then(onResponseArtist).then(onJsonArtist);
+    }
+
 }
 
-function onTokenJsonAlbum(json)
+function barraRicercaFMobile(event){
+    event.preventDefault();
+
+    const input = document.querySelector('#Ricerca-flex-container-box-Barra-testo-input_mobile');
+    const value = encodeURIComponent(input.value);
+
+    const menu = document.querySelector('#Ricerca-flex-container-box-Barra-testo-select_mobile');
+    const scelta = menu.value;
+    if (scelta == "album"){
+        fetch("https://api.spotify.com/v1/search?type=album&q=" + value,
+            {
+              headers:
+              {
+                'Authorization': 'Bearer ' + token
+              }
+            }
+          ).then(onResponseAlbum).then(onJsonAlbum);
+    }
+
+    else if (scelta == "brano"){
+        fetch("https://api.spotify.com/v1/search?type=track&q=" + value,
+            {
+              headers:
+              {
+                'Authorization': 'Bearer ' + token
+              }
+            }
+          ).then(onResponseBrano).then(onJsonBrano);
+    }
+
+    else if (scelta == "artista"){
+        fetch("https://api.spotify.com/v1/search?type=artist&q=" + value,
+            {
+                headers:
+                {
+                    'Authorization': 'Bearer ' + token
+                }
+            }
+        ).then(onResponseArtist).then(onJsonArtist);
+    }
+
+}
+
+function onTokenJson(json)
 {
   token = json.access_token;
 }
 
-function onTokenResponseAlbum(response)
+function onTokenResponse(response)
 {
   return response.json();
 }
@@ -297,11 +403,14 @@ fetch("https://accounts.spotify.com/api/token",
     'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
    }
   }
-).then(onTokenResponseAlbum).then(onTokenJsonAlbum);
+).then(onTokenResponse).then(onTokenJson);
 
 
 const barraRicerca = document.querySelector('#Ricerca-flex-container-box-Barra');
 barraRicerca.addEventListener('submit', barraRicercaF);
+
+const barraRicercaMobile = document.querySelector('#Ricerca-flex-container-box-Barra-mobile');
+barraRicercaMobile.addEventListener('submit', barraRicercaFMobile);
 
 const classificaGlobal = document.querySelector('#Classifiche-flex-container-box');
 classificaGlobal.addEventListener('submit', generaClassificaGlobal);
